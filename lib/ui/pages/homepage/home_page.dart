@@ -14,13 +14,13 @@ class HomePage extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               child: Image.network('https://picsum.photos/400/570')),
           Title('현재 상영중'),
-          ImageBox(),
+          ImageBoxList(),
           Title('인기순'),
-          ImageBox(),
+          PopularImageList(),
           Title('평점 높은순'),
-          ImageBox(),
+          ImageBoxList(),
           Title('개봉예정'),
-          ImageBox(),
+          ImageBoxList(),
         ]),
       ),
     );
@@ -40,7 +40,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  SizedBox ImageBox() {
+  SizedBox ImageBoxList() {
     return SizedBox(
       height: 180,
       child: ListView(
@@ -54,6 +54,50 @@ class HomePage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Container PopularImageList() {
+    return Container(
+      height: 180,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: [
+          PopularStackImages('1'),
+          PopularStackImages('2'),
+          PopularStackImages('3'),
+          PopularStackImages('4'),
+          PopularStackImages('5'),
+        ],
+      ),
+    );
+  }
+
+  Stack PopularStackImages(String num) {
+    return Stack(children: [
+      Container(
+        width: 160,
+        child: Align(
+          alignment: Alignment.centerRight,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Image.network(
+              'https://img.cgv.co.kr/Movie/Thumbnail/StillCut/000088/88381/88381231558_727.jpg',
+            ),
+          ),
+        ),
+      ),
+      Positioned(
+        top: 60,
+        child: Text(
+          num,
+          style: TextStyle(
+            fontSize: 100,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    ]);
   }
 
   Container Images() {
