@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_movie_app/ui/pages/detailpage/detail_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -6,23 +7,41 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: ListView(children: [
-          Title('가장 인기있는'),
-          ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image.network('https://picsum.photos/400/570')),
-          Title('현재 상영중'),
-          ImageBoxList(),
-          Title('인기순'),
-          PopularImageList(),
-          Title('평점 높은순'),
-          ImageBoxList(),
-          Title('개봉예정'),
-          ImageBoxList(),
-        ]),
-      ),
+      body: ListView(children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Title('가장 인기있는'),
+              GestureDetector(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => DetailPage()));
+                  },
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.network('https://picsum.photos/600/800'))),
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Title('현재 상영중'),
+              ImageBoxList(),
+              Title('인기순'),
+              PopularImageList(),
+              Title('평점 높은순'),
+              ImageBoxList(),
+              Title('개봉예정'),
+              ImageBoxList(),
+            ],
+          ),
+        )
+      ]),
     );
   }
 
