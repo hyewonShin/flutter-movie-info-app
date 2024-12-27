@@ -21,13 +21,16 @@ class DetailPage extends StatelessWidget {
     return Scaffold(
       body: ListView(
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(10),
-              bottomRight: Radius.circular(10),
+          Hero(
+            tag: 'sample-image',
+            child: ClipRRect(
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(10),
+                bottomRight: Radius.circular(10),
+              ),
+              child: Image.network(
+                  'https://img.cgv.co.kr/Movie/Thumbnail/StillCut/000088/88381/88381231558_727.jpg'),
             ),
-            child: Image.network(
-                'https://img.cgv.co.kr/Movie/Thumbnail/StillCut/000088/88381/88381231558_727.jpg'),
           ),
           Padding(
             padding: const EdgeInsets.all(20),

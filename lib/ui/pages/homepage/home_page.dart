@@ -19,9 +19,12 @@ class HomePage extends StatelessWidget {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => DetailPage()));
                   },
-                  child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.network('https://picsum.photos/600/800'))),
+                  child: Hero(
+                    tag: 'sample-image',
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.network('https://picsum.photos/600/800')),
+                  )),
             ],
           ),
         ),
