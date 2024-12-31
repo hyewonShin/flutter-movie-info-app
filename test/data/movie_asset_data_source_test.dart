@@ -23,10 +23,10 @@ void main() {
   });
 
   test(
-    'MovieAssetDataSourceImpl: fetchMovies return actual data from API',
+    'MovieAssetDataSourceImpl: fetchNowPlayingMovies return actual data from API',
     () async {
       // 실제 API 호출
-      final result = await movieAssetDataSourceImpl.fetchMovies();
+      final result = await movieAssetDataSourceImpl.fetchNowPlayingMovies();
 
       // 응답 검증
       expect(result, isNotEmpty); // 데이터가 비어있지 않음

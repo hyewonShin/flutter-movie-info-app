@@ -7,6 +7,6 @@ class FetchMoviesUsecase {
   final MovieRepository _movieRepository;
 
   Future<List<Movie>> execute() async {
-    return await _movieRepository.fetchMovies();
+    return await _movieRepository.fetchNowPlayingMovies();
   }
 }

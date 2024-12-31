@@ -20,19 +20,20 @@ void main() {
     movieRepositoryImpl = MovieRepositoryImpl(mockMovieDataSource);
   });
   test(
-    'MovieRepositoryImpl test : fetchMovies',
+    'MovieRepositoryImpl test : fetchNowPlayingMovies',
     () async {
       const testId = 1;
       // Mock 데이터를 반환하도록 설정
-      when(() => mockMovieDataSource.fetchMovies()).thenAnswer((_) async => [
-            MovieDto(
-              id: testId,
-              poster_path: 'poster_path',
-            )
-          ]);
+      when(() => mockMovieDataSource.fetchNowPlayingMovies())
+          .thenAnswer((_) async => [
+                MovieDto(
+                  id: testId,
+                  poster_path: 'poster_path',
+                )
+              ]);
 
       // fetchMovies 호출
-      final result = await movieRepositoryImpl.fetchMovies();
+      final result = await movieRepositoryImpl.fetchNowPlayingMovies();
 
       // 결과 검증
       expect(result.length, 1); // 반환된 데이터 길이 확인
