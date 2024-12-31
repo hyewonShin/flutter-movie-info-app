@@ -7,8 +7,8 @@ class MovieRepositoryImpl implements MovieRepository {
   final MovieDataSource _movieDataSource;
 
   @override
-  Future<List<Movie>> fetchMovies() async {
-    final result = await _movieDataSource.fetchMovies();
+  Future<List<Movie>> fetchNowPlayingMovies() async {
+    final result = await _movieDataSource.fetchNowPlayingMovies();
     // domain 의 엔티티 모델로 매핑
     return result
         .map(

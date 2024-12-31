@@ -41,7 +41,7 @@ void main() {
       expect(stateBefore, isNull);
       await providerContainer
           .read(movieListViewModelProvider.notifier)
-          .fetchMovies();
+          .fetchNowPlayingMovies();
 
       final stateAfter = providerContainer.read(movieListViewModelProvider);
       expect(stateAfter, isNotNull);
