@@ -1,25 +1,59 @@
-import 'package:flutter_movie_app/domain/entity/movie.dart';
+import 'package:flutter_movie_app/domain/movie_state.dart';
 import 'package:flutter_movie_app/presentation/%08providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MovieListViewModel extends Notifier<List<Movie>?> {
+class MovieListViewModel extends Notifier<MovieState> {
   @override
-  List<Movie>? build() {
+  MovieState build() {
     fetchNowPlayingMovies();
-    return null;
+    fetchPopularMovies();
+    fetchTopRatedMovies();
+    fetchUpcomingMovies();
+    return MovieState(); // 초기 상태
   }
 
   // 비동기 함수로 movies를 로드하고 상태 업데이트
   Future<void> fetchNowPlayingMovies() async {
     try {
-      final movies = await ref.read(fetchMoviesUsecaseProvider).execute();
-      state = movies; // 성공적으로 데이터를 받아오면 state 업데이트
+      final movies =
+          await ref.read(fetchMoviesUsecaseProvider).fetchNowPlayingMovies();
+      state = state.copyWith(nowPlayingMovies: movies);
     } catch (e) {
-      state = []; // 실패 시 빈 리스트로 처리
+      state = state.copyWith(nowPlayingMovies: []);
+    }
+  }
+
+  Future<void> fetchPopularMovies() async {
+    try {
+      final movies =
+          await ref.read(fetchMoviesUsecaseProvider).fetchPopularMovies();
+      state = state.copyWith(popularMovies: movies);
+    } catch (e) {
+      state = state.copyWith(popularMovies: []);
+    }
+  }
+
+  Future<void> fetchTopRatedMovies() async {
+    try {
+      final movies =
+          await ref.read(fetchMoviesUsecaseProvider).fetchTopRatedMovies();
+      state = state.copyWith(topRatedMovies: movies);
+    } catch (e) {
+      state = state.copyWith(topRatedMovies: []);
+    }
+  }
+
+  Future<void> fetchUpcomingMovies() async {
+    try {
+      final movies =
+          await ref.read(fetchMoviesUsecaseProvider).fetchUpcomingMovies();
+      state = state.copyWith(upcomingMovies: movies);
+    } catch (e) {
+      state = state.copyWith(upcomingMovies: []);
     }
   }
 }
 
 final movieListViewModelProvider =
-    NotifierProvider<MovieListViewModel, List<Movie>?>(
+    NotifierProvider<MovieListViewModel, MovieState>(
         () => MovieListViewModel());
