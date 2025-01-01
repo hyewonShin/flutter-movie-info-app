@@ -1,22 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_movie_app/presentation/pages/detailpage/detail_page_view_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class DetailPage extends StatelessWidget {
-  const DetailPage({super.key});
+class DetailPage extends ConsumerWidget {
+  final int id;
+
+  const DetailPage({
+    super.key,
+    required this.id,
+  });
 
   @override
-  Widget build(BuildContext context) {
-    final categories = [
-      'Animation',
-      'Drama',
-      'Action',
-      'Comedy',
-      'Horror',
-      'Sci-Fi',
-      'Thriller',
-      'Fantasy',
-      'Adventure',
-      'Romance'
-    ];
+  Widget build(BuildContext context, WidgetRef ref) {
+    final detailMovieData = ref.watch(detailPageViewModel(id));
+    print('detailMovieData > ${detailMovieData?.toJson()}');
+
+    // 상태가 초기값일 경우 로딩 인디케이터 표시
+    if (detailMovieData == null) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
 
     return Scaffold(
       body: ListView(
@@ -28,8 +34,8 @@ class DetailPage extends StatelessWidget {
                 bottomLeft: Radius.circular(10),
                 bottomRight: Radius.circular(10),
               ),
-              child: Image.network(
-                  'https://img.cgv.co.kr/Movie/Thumbnail/StillCut/000088/88381/88381231558_727.jpg'),
+              child: Image.network('https://image.tmdb.org/t/p/w500' +
+                  detailMovieData.posterPath),
             ),
           ),
           Padding(
@@ -41,29 +47,31 @@ class DetailPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '영화명',
+                      detailMovieData.title,
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                     ),
-                    Text('2024-12-27'),
+                    Text(detailMovieData.releaseDate.toString().split(' ')[0]),
                   ],
                 ),
-                Text('영화 서브명/The ocean is calling them back.'),
-                Text('상영시간/100분'),
+                Text(detailMovieData.originalTitle),
+                Text('${detailMovieData.runtime.toString()}분'),
                 Divider(),
                 SizedBox(height: 3),
                 SizedBox(
                   height: 30,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
-                    itemCount: 10,
+                    itemCount: (detailMovieData.genres).length,
                     itemBuilder: (context, index) {
-                      final category = categories[index];
-                      return MovieCategory(category);
+                      final category =
+                          detailMovieData.genres[index]; // null 안전하게 접근
+                      return MovieCategory(
+                          category.name); // Genre 객체에서 name을 사용
                     },
                     separatorBuilder: (context, index) {
                       return SizedBox(
-                        width: 5,
+                        width: 10,
                       );
                     },
                   ),
@@ -71,8 +79,7 @@ class DetailPage extends StatelessWidget {
                 SizedBox(height: 3),
                 Divider(),
                 SizedBox(height: 5),
-                Text(
-                    '영화 설명/t is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters'),
+                Text(detailMovieData.overview),
                 SizedBox(height: 5),
                 Divider(),
                 SizedBox(height: 8),
@@ -83,30 +90,65 @@ class DetailPage extends StatelessWidget {
                 SizedBox(height: 10),
                 SizedBox(
                   height: 70,
-                  child: ListView.separated(
+                  child: ListView(
                     scrollDirection: Axis.horizontal,
-                    itemCount: 10,
-                    itemBuilder: (context, index) {
-                      return BoxOfficeData('6.949 \n 평점');
-                    },
-                    separatorBuilder: (context, index) {
-                      return SizedBox(
-                        width: 10,
-                      );
-                    },
+                    children: [
+                      BoxOfficeData('평점', detailMovieData.voteAverage),
+                      BoxOfficeData('평점투표수', detailMovieData.voteCount),
+                      BoxOfficeData('인기점수', detailMovieData.popularity),
+                      BoxOfficeData('예산', '\$${detailMovieData.budget}'),
+                      BoxOfficeData('수익', detailMovieData.revenue),
+                    ],
                   ),
                 ),
                 SizedBox(height: 20),
                 SizedBox(
-                  height: 70,
+                  height: 200,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
-                    itemCount: 10,
+                    itemCount: detailMovieData.productionCompanies.length,
                     itemBuilder: (context, index) {
-                      return Container(
-                        width: 150,
-                        height: 100,
-                        decoration: BoxDecoration(color: Colors.white),
+                      final company =
+                          detailMovieData.productionCompanies[index];
+                      return Column(
+                        children: [
+                          company.logoPath.isNotEmpty
+                              ? Container(
+                                  decoration:
+                                      BoxDecoration(color: Colors.white),
+                                  height: 100,
+                                  width: 160,
+                                  child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: Image.network(
+                                          'https://image.tmdb.org/t/p/w500' +
+                                              company.logoPath),
+                                    ),
+                                  ),
+                                )
+                              : Container(
+                                  decoration:
+                                      BoxDecoration(color: Colors.white),
+                                  height: 100,
+                                  width: 160,
+                                  child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: Center(
+                                          child: Text(
+                                            '${company.name}',
+                                            style: TextStyle(
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black),
+                                          ),
+                                        )),
+                                  ),
+                                )
+                        ],
                       );
                     },
                     separatorBuilder: (context, index) {
@@ -137,17 +179,33 @@ class DetailPage extends StatelessWidget {
     );
   }
 
-  Container BoxOfficeData(String text) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Colors.white)),
-      child: Text(
-        text,
-        textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 16),
-      ),
+  Widget BoxOfficeData(String text, dynamic value) {
+    return Row(
+      children: [
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: Colors.white)),
+          child: Column(
+            children: [
+              Text(
+                value.toString(),
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 16),
+              ),
+              Text(
+                text,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 16),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          width: 10,
+        )
+      ],
     );
   }
 }
