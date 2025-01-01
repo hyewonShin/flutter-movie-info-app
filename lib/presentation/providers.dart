@@ -3,7 +3,6 @@
 // ViewModel 내에서는 Provider에 의해서 UseCase 공급받음!
 
 import 'package:dio/dio.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_movie_app/data/data_source/movie_data_source_impl.dart';
 import 'package:flutter_movie_app/data/data_source/movie_data_source.dart';
@@ -15,8 +14,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final _dioProvider = Provider<Dio>((ref) {
   return Dio(
     BaseOptions(
-      baseUrl:
-          'https://api.themoviedb.org/3/movie/upcoming?language=ko-KR&page=1',
+      baseUrl: 'https://api.themoviedb.org/3/movie',
       headers: {
         'Authorization': dotenv.get('THEMOVIEDB_TOKEN'),
       },
