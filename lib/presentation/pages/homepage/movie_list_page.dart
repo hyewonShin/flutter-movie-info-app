@@ -8,10 +8,13 @@ class MovieListPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // 영화 데이터 읽기
-    final movies = ref.watch(movieListViewModelProvider);
+    final state = ref.watch(movieListViewModelProvider);
 
-    // 영화 데이터가 없으면 로딩 인디케이터 표시
-    if (movies == null) {
+    // 상태가 초기값일 경우 로딩 인디케이터 표시
+    if (state.nowPlayingMovies.isEmpty &&
+        state.popularMovies.isEmpty &&
+        state.topRatedMovies.isEmpty &&
+        state.upcomingMovies.isEmpty) {
       return const Scaffold(
         body: Center(
           child: CircularProgressIndicator(),
@@ -19,14 +22,14 @@ class MovieListPage extends ConsumerWidget {
       );
     }
 
+    // 가장 인기있는 영화의 포스터를 가져오기
+    // TODO ui로딩 전에 못가져오는 경우 예외처리 해야됌
+    String topRankingPoster = state.popularMovies[0].poster_path;
     // ListView.builder를 사용하여 영화 리스트 렌더링
     return Scaffold(
       body: ListView.builder(
         itemCount: 1, // 영화 데이터의 길이를 아이템 개수로 설정
         itemBuilder: (context, index) {
-          String baseUrl = "https://image.tmdb.org/t/p/w500";
-          final movie = movies[index]; // 각 영화 데이터를 가져옵니다
-
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
@@ -39,7 +42,7 @@ class MovieListPage extends ConsumerWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => DetailPage(),
+                        builder: (context) => DetailPage(id: 912649),
                       ),
                     );
                   },
@@ -48,7 +51,7 @@ class MovieListPage extends ConsumerWidget {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: Image.network(
-                        'https://picsum.photos/280/380',
+                        'https://image.tmdb.org/t/p/w500' + topRankingPoster,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -60,15 +63,14 @@ class MovieListPage extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // 영화 카테고리들 (현재 상영중, 인기순 등)
                       Title('현재 상영중'),
-                      ImageBoxList(movies), // 상영중 영화 리스트
+                      ImageBoxList(state.nowPlayingMovies),
                       Title('인기순'),
-                      PopularImageList(), // 인기 영화 리스트
+                      PopularImageList(state.popularMovies), // 인기 영화 리스트
                       Title('평점 높은순'),
-                      ImageBoxList(movies), // 평점 높은 영화 리스트
+                      ImageBoxList(state.topRatedMovies),
                       Title('개봉예정'),
-                      ImageBoxList(movies), // 개봉 예정 영화 리스트
+                      ImageBoxList(state.upcomingMovies),
                     ],
                   ),
                 ),
@@ -109,23 +111,24 @@ SizedBox ImageBoxList(List<Movie> movies) {
   );
 }
 
-Container PopularImageList() {
+Container PopularImageList(List<Movie> movies) {
   return Container(
     height: 180,
-    child: ListView(
+    child: ListView.builder(
       scrollDirection: Axis.horizontal,
-      children: [
-        PopularStackImages('1'),
-        PopularStackImages('2'),
-        PopularStackImages('3'),
-        PopularStackImages('4'),
-        PopularStackImages('5'),
-      ],
+      itemCount: movies.length,
+      itemBuilder: (context, index) {
+        final movie = movies[index];
+        return PopularStackImages(
+          (index + 1).toString(),
+          'https://image.tmdb.org/t/p/w500' + movie.poster_path,
+        );
+      },
     ),
   );
 }
 
-Stack PopularStackImages(String num) {
+Stack PopularStackImages(String num, String posterPath) {
   return Stack(children: [
     Container(
       width: 160,
@@ -133,9 +136,7 @@ Stack PopularStackImages(String num) {
         alignment: Alignment.centerRight,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10),
-          child: Image.network(
-            'https://img.cgv.co.kr/Movie/Thumbnail/StillCut/000088/88381/88381231558_727.jpg',
-          ),
+          child: Image.network(posterPath),
         ),
       ),
     ),
