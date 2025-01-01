@@ -31,14 +31,13 @@ class MovieListPage extends ConsumerWidget {
       body: ListView.builder(
         itemCount: 1, // 영화 데이터의 길이를 아이템 개수로 설정
         itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // 가장 인기있는 영화 섹션
-                Title('가장 인기있는'),
-                GestureDetector(
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Title('가장 인기있는'),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: GestureDetector(
                   onTap: () {
                     Navigator.push(
                       context,
@@ -58,26 +57,23 @@ class MovieListPage extends ConsumerWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Title('현재 상영중'),
-                      ImageBoxList(context, state.nowPlayingMovies),
-                      Title('인기순'),
-                      PopularImageList(
-                          context, state.popularMovies), // 인기 영화 리스트
-                      Title('평점 높은순'),
-                      ImageBoxList(context, state.topRatedMovies),
-                      Title('개봉예정'),
-                      ImageBoxList(context, state.upcomingMovies),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+              ),
+              // 가장 인기있는 영화 섹션
+              const SizedBox(height: 20),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Title('현재 상영중'),
+                  ImageBoxList(context, state.nowPlayingMovies),
+                  Title('인기순'),
+                  PopularImageList(context, state.popularMovies), // 인기 영화 리스트
+                  Title('평점 높은순'),
+                  ImageBoxList(context, state.topRatedMovies),
+                  Title('개봉예정'),
+                  ImageBoxList(context, state.upcomingMovies),
+                ],
+              ),
+            ],
           );
         },
       ),
@@ -87,7 +83,7 @@ class MovieListPage extends ConsumerWidget {
 
 Padding Title(String text) {
   return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 4),
+    padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 20),
     child: Text(
       text,
       style: TextStyle(
@@ -166,10 +162,13 @@ Widget Images(context, poster_path, id) {
         ),
       );
     },
-    child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 5),
-        child: ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Image.network(poster_path))),
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 5),
+          child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.network(poster_path))),
+    ),
   );
 }
