@@ -13,7 +13,6 @@ class DetailPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final detailMovieData = ref.watch(detailPageViewModel(id));
-    print('detailMovieData > ${detailMovieData?.toJson()}');
 
     // 상태가 초기값일 경우 로딩 인디케이터 표시
     if (detailMovieData == null) {

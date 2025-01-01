@@ -14,7 +14,6 @@ class MovieAssetDataSourceImpl implements MovieDataSource {
         'language': 'ko-KR',
         'page': 1,
       });
-      // print('😀 NowPlaying response >> $response');
       if (response.statusCode == 200) {
         // 응답 데이터에서 MovieDto 목록으로 변환
         return (response.data['results'] as List)
@@ -35,7 +34,6 @@ class MovieAssetDataSourceImpl implements MovieDataSource {
         'language': 'ko-KR',
         'page': 1,
       });
-      // print('😀 PopularMovies response >> $response');
       if (response.statusCode == 200) {
         // 응답 데이터에서 MovieDto 목록으로 변환
         return (response.data['results'] as List)
@@ -56,7 +54,6 @@ class MovieAssetDataSourceImpl implements MovieDataSource {
         'language': 'ko-KR',
         'page': 1,
       });
-      // print('😀 TopRatedMovies response >> $response');
       if (response.statusCode == 200) {
         // 응답 데이터에서 MovieDto 목록으로 변환
         return (response.data['results'] as List)
@@ -77,7 +74,6 @@ class MovieAssetDataSourceImpl implements MovieDataSource {
         'language': 'ko-KR',
         'page': 1,
       });
-      // print('😀 UpcomingMovies response >> $response');
       if (response.statusCode == 200) {
         // 응답 데이터에서 MovieDto 목록으로 변환
         return (response.data['results'] as List)
