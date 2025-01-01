@@ -28,7 +28,7 @@ void main() {
                 )
               ]);
 
-      final result = await fetchMoviesUsecase.execute();
+      final result = await fetchMoviesUsecase.fetchNowPlayingMovies();
       expect(result.length, 1);
       expect(result[0].id, 'id');
     },
