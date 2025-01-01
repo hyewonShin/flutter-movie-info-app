@@ -9,9 +9,9 @@ class MovieDetailDto {
   int budget;
   // 장르
   List<Genre> genres;
-  // 개요(영화 설명?)
+  // 개요
   String overview;
-  // 대중성 지수?
+  // 대중성 지수
   double popularity;
   // 포스터 url
   String posterPath;
@@ -52,24 +52,28 @@ class MovieDetailDto {
   factory MovieDetailDto.fromJson(Map<String, dynamic> json) {
     return MovieDetailDto(
       id: json['id'],
-      title: json['title'],
-      originalTitle: json['original_title'],
-      budget: json['budget'],
-      genres: (json['genres'] as List)
-          .map((genreJson) => Genre.fromJson(genreJson))
-          .toList(),
-      overview: json['overview'],
-      popularity: json['popularity'].toDouble(),
-      posterPath: json['poster_path'],
-      productionCompanies: (json['production_companies'] as List)
-          .map((companyJson) => ProductionCompany.fromJson(companyJson))
-          .toList(),
-      releaseDate: DateTime.parse(json['release_date']),
-      revenue: json['revenue'],
-      runtime: json['runtime'],
-      status: json['status'],
-      voteAverage: json['vote_average'].toDouble(),
-      voteCount: json['vote_count'],
+      title: json['title'] ?? "",
+      originalTitle: json['original_title'] ?? "",
+      budget: json['budget'] ?? 0,
+      genres: (json['genres'] as List?)
+              ?.map((genreJson) => Genre.fromJson(genreJson))
+              .toList() ??
+          [],
+      overview: json['overview'] ?? "",
+      popularity: (json['popularity'] as num?)?.toDouble() ?? 0.0,
+      posterPath: json['poster_path'] ?? "",
+      productionCompanies: (json['production_companies'] as List?)
+              ?.map((companyJson) => ProductionCompany.fromJson(companyJson))
+              .toList() ??
+          [],
+      releaseDate: json['release_date'] != null
+          ? DateTime.parse(json['release_date']) // null이 아닐 때만 DateTime 파싱
+          : DateTime.now(), // null일 경우 현재 날짜로 대체
+      revenue: json['revenue'] ?? 0,
+      runtime: json['runtime'] ?? 0,
+      status: json['status'] ?? "",
+      voteAverage: (json['vote_average'] as num?)?.toDouble() ?? 0.0,
+      voteCount: json['vote_count'] ?? 0,
     );
   }
 
@@ -78,7 +82,7 @@ class MovieDetailDto {
     return {
       'id': id,
       'title': title,
-      'originalTitle': originalTitle,
+      'original_title': originalTitle,
       'budget': budget,
       'genres': genres.map((genre) => genre.toJson()).toList(),
       'overview': overview,
@@ -109,7 +113,7 @@ class Genre {
   factory Genre.fromJson(Map<String, dynamic> json) {
     return Genre(
       id: json['id'],
-      name: json['name'],
+      name: json['name'] ?? "",
     );
   }
 
@@ -139,9 +143,9 @@ class ProductionCompany {
   factory ProductionCompany.fromJson(Map<String, dynamic> json) {
     return ProductionCompany(
       id: json['id'],
-      logoPath: json['logo_path'] ?? '', // logo_path가 없을 수 있음
-      name: json['name'],
-      originCountry: json['origin_country'],
+      logoPath: json['logo_path'] ?? "",
+      name: json['name'] ?? "",
+      originCountry: json['origin_country'] ?? "",
     );
   }
 
