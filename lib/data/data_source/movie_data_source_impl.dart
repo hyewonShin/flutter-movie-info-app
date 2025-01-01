@@ -4,18 +4,17 @@ import 'package:flutter_movie_app/data/dto/movie_detail_dto.dart';
 import 'package:flutter_movie_app/data/dto/movie_dto.dart';
 
 class MovieAssetDataSourceImpl implements MovieDataSource {
-  // BaseRemoteRepository에서 제공하는 client getter를 통해 Dio를 가져와 사용
   final Dio _client;
 
   MovieAssetDataSourceImpl(Dio client) : _client = client;
 
   Future<List<MovieDto>> fetchNowPlayingMovies() async {
     try {
-      final response = await _client.get('movie/now_playing', queryParameters: {
+      final response = await _client.get('/now_playing', queryParameters: {
         'language': 'ko-KR',
         'page': 1,
       });
-      print('😀 NowPlaying response >> $response');
+      // print('😀 NowPlaying response >> $response');
       if (response.statusCode == 200) {
         // 응답 데이터에서 MovieDto 목록으로 변환
         return (response.data['results'] as List)
@@ -30,19 +29,13 @@ class MovieAssetDataSourceImpl implements MovieDataSource {
   }
 
   @override
-  Future<MovieDetailDto?> fetchMovieDetail(int id) async {
-    // TODO: implement fetchMovieDetail
-    throw UnimplementedError();
-  }
-
-  @override
   Future<List<MovieDto>> fetchPopularMovies() async {
     try {
-      final response = await _client.get('movie/popular', queryParameters: {
+      final response = await _client.get('/popular', queryParameters: {
         'language': 'ko-KR',
         'page': 1,
       });
-      print('😀 PopularMovies response >> $response');
+      // print('😀 PopularMovies response >> $response');
       if (response.statusCode == 200) {
         // 응답 데이터에서 MovieDto 목록으로 변환
         return (response.data['results'] as List)
@@ -59,11 +52,11 @@ class MovieAssetDataSourceImpl implements MovieDataSource {
   @override
   Future<List<MovieDto>> fetchTopRatedMovies() async {
     try {
-      final response = await _client.get('movie/top_rated', queryParameters: {
+      final response = await _client.get('/top_rated', queryParameters: {
         'language': 'ko-KR',
         'page': 1,
       });
-      print('😀 TopRatedMovies response >> $response');
+      // print('😀 TopRatedMovies response >> $response');
       if (response.statusCode == 200) {
         // 응답 데이터에서 MovieDto 목록으로 변환
         return (response.data['results'] as List)
@@ -80,11 +73,11 @@ class MovieAssetDataSourceImpl implements MovieDataSource {
   @override
   Future<List<MovieDto>> fetchUpcomingMovies() async {
     try {
-      final response = await _client.get('movie/upcoming', queryParameters: {
+      final response = await _client.get('/upcoming', queryParameters: {
         'language': 'ko-KR',
         'page': 1,
       });
-      print('😀 UpcomingMovies response >> $response');
+      // print('😀 UpcomingMovies response >> $response');
       if (response.statusCode == 200) {
         // 응답 데이터에서 MovieDto 목록으로 변환
         return (response.data['results'] as List)
@@ -95,6 +88,23 @@ class MovieAssetDataSourceImpl implements MovieDataSource {
       }
     } catch (e) {
       throw Exception('Failed to fetchUpcomingMovies : $e');
+    }
+  }
+
+  @override
+  Future<MovieDetailDto?> fetchMovieDetail(int id) async {
+    try {
+      final response = await _client.get('/$id', queryParameters: {
+        'language': 'ko-KR',
+      });
+      if (response.statusCode == 200) {
+        // 응답 데이터에서 MovieDto 목록으로 변환
+        return MovieDetailDto.fromJson(response.data);
+      } else {
+        throw Exception('Failed to load movies');
+      }
+    } catch (e) {
+      throw Exception('Failed to fetchMovieDetail : $e');
     }
   }
 }
