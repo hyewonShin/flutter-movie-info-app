@@ -19,18 +19,17 @@ void main() {
   test(
     'FetchMoviesUsecase test : fetchNowPlayingMovies',
     () async {
-      const testId = 1;
       when(() => mockMovieRepository.fetchNowPlayingMovies())
           .thenAnswer((_) async => [
                 Movie(
-                  id: testId,
+                  id: 912649,
                   poster_path: 'poster_path',
                 )
               ]);
 
       final result = await fetchMoviesUsecase.fetchNowPlayingMovies();
       expect(result.length, 1);
-      expect(result[0].id, 'id');
+      expect(result[0].id, 912649);
     },
   );
 }
