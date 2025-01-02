@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/presentation/pages/detailpage/detail_page_view_model.dart';
+import 'package:flutter_movie_app/presentation/pages/detailpage/widget/box_office_data.dart';
+import 'package:flutter_movie_app/presentation/pages/detailpage/widget/movie_category.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class DetailPage extends ConsumerWidget {
@@ -27,7 +29,7 @@ class DetailPage extends ConsumerWidget {
       body: ListView(
         children: [
           Hero(
-            tag: 'sample-image',
+            tag: 'hero-movie-$id',
             child: ClipRRect(
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(10),
@@ -162,49 +164,6 @@ class DetailPage extends ConsumerWidget {
           ),
         ],
       ),
-    );
-  }
-
-  Container MovieCategory(String text) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
-          border: Border.all(color: Colors.white)),
-      child: Text(
-        text,
-        style: TextStyle(color: Colors.blue),
-      ),
-    );
-  }
-
-  Widget BoxOfficeData(String text, dynamic value) {
-    return Row(
-      children: [
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: Colors.white)),
-          child: Column(
-            children: [
-              Text(
-                value.toString(),
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16),
-              ),
-              Text(
-                text,
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16),
-              ),
-            ],
-          ),
-        ),
-        SizedBox(
-          width: 10,
-        )
-      ],
     );
   }
 }
