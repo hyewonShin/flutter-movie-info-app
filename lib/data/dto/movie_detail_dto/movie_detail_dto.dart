@@ -1,4 +1,5 @@
-import 'package:flutter_movie_app/domain/entity/movie_detail_entity.dart';
+import 'package:flutter_movie_app/data/dto/movie_detail_dto/genre.dart';
+import 'package:flutter_movie_app/data/dto/movie_detail_dto/production_company.dart';
 
 class MovieDetailDto {
   // 고유 아이디
@@ -61,8 +62,10 @@ class MovieDetailDto {
       overview: json['overview'],
       popularity: (json['popularity'] as num?)?.toDouble() ?? 0.0,
       posterPath: json['poster_path'],
-      productionCompanies: List<ProductionCompany>.from(
-          json["production_company"].map((x) => ProductionCompany.fromJson(x))),
+      productionCompanies: json["production_company"] == null
+          ? []
+          : List<ProductionCompany>.from(json["production_company"]
+              .map((x) => ProductionCompany.fromJson(x))),
       releaseDate: DateTime.parse(json['release_date']),
       revenue: json['revenue'],
       runtime: json['runtime'],
