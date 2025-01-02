@@ -6,24 +6,12 @@ class DetailPageViewModel
     extends AutoDisposeFamilyNotifier<MovieDetailEntity?, int> {
   @override
   MovieDetailEntity? build(int arg) {
-    fetchMovieDetail(arg);
+    fetchMovieDetail();
     return null;
   }
 
-  Future<void> fetchMovieDetail(id) async {
-    try {
-      final movieDetail =
-          await ref.read(fetchMoviesUsecaseProvider).fetchMovieDetail(id);
-
-      if (movieDetail != null) {
-        state = movieDetail;
-      } else {
-        state = null;
-      }
-    } catch (e) {
-      print('❌ Error: $e');
-      state = null;
-    }
+  Future<void> fetchMovieDetail() async {
+    state = await ref.read(fetchMovieDetailUsecaseProvider).execute(arg);
   }
 }
 
