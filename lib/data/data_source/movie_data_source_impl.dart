@@ -1,19 +1,39 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_movie_app/data/data_source/movie_data_source.dart';
 import 'package:flutter_movie_app/data/dto/movie_detail_dto/movie_detail_dto.dart';
 import 'package:flutter_movie_app/data/dto/movie_response_dto/movie_response_dto.dart';
 
-class MovieAssetDataSourceImpl implements MovieDataSource {
-  final Dio _client;
+class MovieDataSourceImpl implements MovieDataSource {
+  MovieDataSourceImpl(this._dioClient) {
+    _dioClient.interceptors.add(InterceptorsWrapper(
+      onRequest: (options, handler) {
+        if (options.uri.host == 'api.themoviedb.org') {
+          options.headers.addAll(
+            {
+              "Authorization": 'Bearer' + dotenv.get('THEMOVIEDB_TOKEN'),
+              'accept': 'application/json',
+            },
+          );
+        }
+        handler.next(options);
+      },
+    ));
+  }
 
-  MovieAssetDataSourceImpl(Dio client) : _client = client;
+  final Dio _dioClient;
+  final String _baseUrl = 'https://api.themoviedb.org/3/movie';
+  final _commonQueryParam = {
+    'language': 'ko-KR',
+    'page': 1,
+  };
 
   Future<MovieResponseDto?> fetchNowPlayingMovies() async {
     try {
-      final response = await _client.get('/now_playing', queryParameters: {
-        'language': 'ko-KR',
-        'page': 1,
-      });
+      final response = await _dioClient.get(
+        '$_baseUrl/now_playing',
+        queryParameters: _commonQueryParam,
+      );
       if (response.statusCode == 200) {
         // 응답 데이터에서 MovieDto 목록으로 변환
         return MovieResponseDto.fromJson(response.data);
@@ -28,10 +48,10 @@ class MovieAssetDataSourceImpl implements MovieDataSource {
   @override
   Future<MovieResponseDto?> fetchPopularMovies() async {
     try {
-      final response = await _client.get('/popular', queryParameters: {
-        'language': 'ko-KR',
-        'page': 1,
-      });
+      final response = await _dioClient.get(
+        '$_baseUrl/popular',
+        queryParameters: _commonQueryParam,
+      );
       if (response.statusCode == 200) {
         // 응답 데이터에서 MovieDto 목록으로 변환
         return MovieResponseDto.fromJson(response.data);
@@ -46,10 +66,10 @@ class MovieAssetDataSourceImpl implements MovieDataSource {
   @override
   Future<MovieResponseDto?> fetchTopRatedMovies() async {
     try {
-      final response = await _client.get('/top_rated', queryParameters: {
-        'language': 'ko-KR',
-        'page': 1,
-      });
+      final response = await _dioClient.get(
+        '$_baseUrl/top_rated',
+        queryParameters: _commonQueryParam,
+      );
       if (response.statusCode == 200) {
         // 응답 데이터에서 MovieDto 목록으로 변환
         return MovieResponseDto.fromJson(response.data);
@@ -64,10 +84,10 @@ class MovieAssetDataSourceImpl implements MovieDataSource {
   @override
   Future<MovieResponseDto?> fetchUpcomingMovies() async {
     try {
-      final response = await _client.get('/upcoming', queryParameters: {
-        'language': 'ko-KR',
-        'page': 1,
-      });
+      final response = await _dioClient.get(
+        '$_baseUrl/upcoming',
+        queryParameters: _commonQueryParam,
+      );
       if (response.statusCode == 200) {
         // 응답 데이터에서 MovieDto 목록으로 변환
         return MovieResponseDto.fromJson(response.data);
@@ -82,9 +102,10 @@ class MovieAssetDataSourceImpl implements MovieDataSource {
   @override
   Future<MovieDetailDto?> fetchMovieDetail(int id) async {
     try {
-      final response = await _client.get('/$id', queryParameters: {
-        'language': 'ko-KR',
-      });
+      final response = await _dioClient.get(
+        '$_baseUrl/$id',
+        queryParameters: {'language': 'language=ko-KR'},
+      );
       if (response.statusCode == 200) {
         // 응답 데이터에서 MovieDto 목록으로 변환
         return MovieDetailDto.fromJson(response.data);
