@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_movie_app/domain/entity/movie.dart';
+import 'package:flutter_movie_app/domain/entity/movie_entity.dart';
 import 'package:flutter_movie_app/presentation/pages/detailpage/detail_page.dart';
 
 Widget ImageBoxList(context, List<Movie> movies) {

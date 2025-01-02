@@ -1,11 +1,11 @@
-import 'package:flutter_movie_app/domain/entity/movie.dart';
+import 'package:flutter_movie_app/domain/entity/movie_entity.dart';
 
 class MovieState {
-  final List<Movie> nowPlayingMovies;
-  final List<Movie> popularMovies;
-  final List<Movie> topRatedMovies;
-  final List<Movie> upcomingMovies;
-  final Movie? movieDetail;
+  final List<MovieEntity> nowPlayingMovies;
+  final List<MovieEntity> popularMovies;
+  final List<MovieEntity> topRatedMovies;
+  final List<MovieEntity> upcomingMovies;
+  final MovieEntity? movieDetail;
 
   MovieState({
     this.nowPlayingMovies = const [],
@@ -16,11 +16,11 @@ class MovieState {
   });
 
   MovieState copyWith({
-    List<Movie>? nowPlayingMovies,
-    List<Movie>? popularMovies,
-    List<Movie>? topRatedMovies,
-    List<Movie>? upcomingMovies,
-    Movie? movieDetail,
+    List<MovieEntity>? nowPlayingMovies,
+    List<MovieEntity>? popularMovies,
+    List<MovieEntity>? topRatedMovies,
+    List<MovieEntity>? upcomingMovies,
+    MovieEntity? movieDetail,
   }) {
     return MovieState(
       nowPlayingMovies: nowPlayingMovies ?? this.nowPlayingMovies,

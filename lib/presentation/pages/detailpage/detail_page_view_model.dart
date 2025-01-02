@@ -1,10 +1,11 @@
-import 'package:flutter_movie_app/domain/entity/movie_detail.dart';
+import 'package:flutter_movie_app/domain/entity/movie_detail_entity.dart';
 import 'package:flutter_movie_app/presentation/%08providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class DetailPageViewModel extends AutoDisposeFamilyNotifier<MovieDetail?, int> {
+class DetailPageViewModel
+    extends AutoDisposeFamilyNotifier<MovieDetailEntity?, int> {
   @override
-  MovieDetail? build(int arg) {
+  MovieDetailEntity? build(int arg) {
     fetchMovieDetail(arg);
     return null;
   }
@@ -26,7 +27,7 @@ class DetailPageViewModel extends AutoDisposeFamilyNotifier<MovieDetail?, int> {
   }
 }
 
-final detailPageViewModel =
-    NotifierProvider.autoDispose.family<DetailPageViewModel, MovieDetail?, int>(
+final detailPageViewModel = NotifierProvider.autoDispose
+    .family<DetailPageViewModel, MovieDetailEntity?, int>(
   () => DetailPageViewModel(),
 );
