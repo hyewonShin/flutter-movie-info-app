@@ -16,7 +16,7 @@ Widget ImageBoxList(context, List<Movie> movies) {
   );
 }
 
-Widget Images(context, poster_path, id) {
+Widget Images(context, String poster_path, int id) {
   return GestureDetector(
     onTap: () {
       Navigator.push(

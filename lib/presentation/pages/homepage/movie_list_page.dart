@@ -23,8 +23,6 @@ class MovieListPage extends ConsumerWidget {
       );
     }
 
-    // 가장 인기있는 영화의 포스터를 가져오기
-    int topRankingId = state.popularMovies[0].id;
     // ListView.builder를 사용하여 영화 리스트 렌더링
     return Scaffold(
       body: ListView.builder(
