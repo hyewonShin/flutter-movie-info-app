@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/domain/entity/movie_entity.dart';
 import 'package:flutter_movie_app/presentation/pages/detailpage/detail_page.dart';
 
-Widget ImageBoxList(context, List<Movie> movies) {
+Widget ImageBoxList(context, List<MovieEntity> movies) {
   return SizedBox(
     height: 180,
     child: ListView(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/domain/entity/movie_entity.dart';
 import 'package:flutter_movie_app/presentation/pages/detailpage/detail_page.dart';
 
-Container PopularImageList(context, List<Movie> movies) {
+Container PopularImageList(context, List<MovieEntity> movies) {
   return Container(
     height: 180,
     child: ListView.builder(
