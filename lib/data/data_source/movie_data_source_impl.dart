@@ -1,14 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_movie_app/data/data_source/movie_data_source.dart';
-import 'package:flutter_movie_app/data/dto/movie_detail_dto.dart';
-import 'package:flutter_movie_app/data/dto/movie_dto.dart';
+import 'package:flutter_movie_app/data/dto/movie_detail_dto/movie_detail_dto.dart';
+import 'package:flutter_movie_app/data/dto/movie_response_dto/movie_response_dto.dart';
 
 class MovieAssetDataSourceImpl implements MovieDataSource {
   final Dio _client;
 
   MovieAssetDataSourceImpl(Dio client) : _client = client;
 
-  Future<List<MovieDto>> fetchNowPlayingMovies() async {
+  Future<MovieResponseDto?> fetchNowPlayingMovies() async {
     try {
       final response = await _client.get('/now_playing', queryParameters: {
         'language': 'ko-KR',
@@ -16,9 +16,7 @@ class MovieAssetDataSourceImpl implements MovieDataSource {
       });
       if (response.statusCode == 200) {
         // 응답 데이터에서 MovieDto 목록으로 변환
-        return (response.data['results'] as List)
-            .map((movie) => MovieDto.fromJson(movie))
-            .toList();
+        return MovieResponseDto.fromJson(response.data);
       } else {
         throw Exception('Failed to load movies');
       }
@@ -28,7 +26,7 @@ class MovieAssetDataSourceImpl implements MovieDataSource {
   }
 
   @override
-  Future<List<MovieDto>> fetchPopularMovies() async {
+  Future<MovieResponseDto?> fetchPopularMovies() async {
     try {
       final response = await _client.get('/popular', queryParameters: {
         'language': 'ko-KR',
@@ -36,9 +34,7 @@ class MovieAssetDataSourceImpl implements MovieDataSource {
       });
       if (response.statusCode == 200) {
         // 응답 데이터에서 MovieDto 목록으로 변환
-        return (response.data['results'] as List)
-            .map((movie) => MovieDto.fromJson(movie))
-            .toList();
+        return MovieResponseDto.fromJson(response.data);
       } else {
         throw Exception('Failed to load movies');
       }
@@ -48,7 +44,7 @@ class MovieAssetDataSourceImpl implements MovieDataSource {
   }
 
   @override
-  Future<List<MovieDto>> fetchTopRatedMovies() async {
+  Future<MovieResponseDto?> fetchTopRatedMovies() async {
     try {
       final response = await _client.get('/top_rated', queryParameters: {
         'language': 'ko-KR',
@@ -56,9 +52,7 @@ class MovieAssetDataSourceImpl implements MovieDataSource {
       });
       if (response.statusCode == 200) {
         // 응답 데이터에서 MovieDto 목록으로 변환
-        return (response.data['results'] as List)
-            .map((movie) => MovieDto.fromJson(movie))
-            .toList();
+        return MovieResponseDto.fromJson(response.data);
       } else {
         throw Exception('Failed to load movies');
       }
@@ -68,7 +62,7 @@ class MovieAssetDataSourceImpl implements MovieDataSource {
   }
 
   @override
-  Future<List<MovieDto>> fetchUpcomingMovies() async {
+  Future<MovieResponseDto?> fetchUpcomingMovies() async {
     try {
       final response = await _client.get('/upcoming', queryParameters: {
         'language': 'ko-KR',
@@ -76,9 +70,7 @@ class MovieAssetDataSourceImpl implements MovieDataSource {
       });
       if (response.statusCode == 200) {
         // 응답 데이터에서 MovieDto 목록으로 변환
-        return (response.data['results'] as List)
-            .map((movie) => MovieDto.fromJson(movie))
-            .toList();
+        return MovieResponseDto.fromJson(response.data);
       } else {
         throw Exception('Failed to load movies');
       }
