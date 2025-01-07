@@ -11,11 +11,12 @@ class MovieListPage extends ConsumerWidget {
     // 영화 데이터 읽기
     final state = ref.watch(movieListViewModelProvider);
 
-    // 상태가 초기값일 경우 로딩 인디케이터 표시
-    if (state.nowPlayingMovies.isEmpty &&
-        state.popularMovies.isEmpty &&
-        state.topRatedMovies.isEmpty &&
-        state.upcomingMovies.isEmpty) {
+    // 상태가 null 경우 로딩 인디케이터 표시
+    if (state.mostPopular == null &&
+        state.nowPlayingMovies == null &&
+        state.popularMovies == null &&
+        state.topRatedMovies == null &&
+        state.upcomingMovies == null) {
       return const Scaffold(
         body: Center(
           child: CircularProgressIndicator(),
@@ -36,16 +37,32 @@ class MovieListPage extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Title('가장 인기있는'),
-                  MostPopular(context, state.popularMovies.first.id,
-                      state.popularMovies.first.poster_path),
+                  if (state.mostPopular != null)
+                    MostPopular(
+                      context: context,
+                      movie: state.mostPopular!,
+                      heroTagPrefix: 'MOST_POPULAR',
+                    ),
                   Title('현재 상영중'),
-                  ImageBoxList(context, state.nowPlayingMovies),
+                  ImageBoxList(
+                      context: context,
+                      movies: state.nowPlayingMovies ?? [],
+                      heroTagPrefix: "NOW_PLAYING"),
                   Title('인기순'),
-                  PopularImageList(context, state.popularMovies),
+                  PopularImageList(
+                      context: context,
+                      movies: state.popularMovies ?? [],
+                      heroTagPrefix: "POPULAR"),
                   Title('평점 높은순'),
-                  ImageBoxList(context, state.topRatedMovies),
+                  ImageBoxList(
+                      context: context,
+                      movies: state.topRatedMovies ?? [],
+                      heroTagPrefix: "TOP_RATED"),
                   Title('개봉예정'),
-                  ImageBoxList(context, state.upcomingMovies),
+                  ImageBoxList(
+                      context: context,
+                      movies: state.upcomingMovies ?? [],
+                      heroTagPrefix: "UPCOMING"),
                 ],
               ),
             ],

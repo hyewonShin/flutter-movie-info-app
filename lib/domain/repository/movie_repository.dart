@@ -1,10 +1,10 @@
-import 'package:flutter_movie_app/domain/entity/movie.dart';
-import 'package:flutter_movie_app/domain/entity/movie_detail.dart';
+import 'package:flutter_movie_app/domain/entity/movie_entity.dart';
+import 'package:flutter_movie_app/domain/entity/movie_detail_entity.dart';
 
 abstract interface class MovieRepository {
-  Future<List<Movie>> fetchNowPlayingMovies();
-  Future<List<Movie>> fetchPopularMovies();
-  Future<List<Movie>> fetchTopRatedMovies();
-  Future<List<Movie>> fetchUpcomingMovies();
-  Future<MovieDetail?> fetchMovieDetail(int id);
+  Future<List<MovieEntity>?> fetchNowPlayingMovies();
+  Future<List<MovieEntity>?> fetchPopularMovies();
+  Future<List<MovieEntity>?> fetchTopRatedMovies();
+  Future<List<MovieEntity>?> fetchUpcomingMovies();
+  Future<MovieDetailEntity?> fetchMovieDetail(int id);
 }

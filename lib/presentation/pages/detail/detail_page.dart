@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_movie_app/presentation/pages/detailpage/detail_page_view_model.dart';
-import 'package:flutter_movie_app/presentation/pages/detailpage/widget/box_office_data.dart';
-import 'package:flutter_movie_app/presentation/pages/detailpage/widget/movie_category.dart';
+import 'package:flutter_movie_app/presentation/pages/detail/detail_page_view_model.dart';
+import 'package:flutter_movie_app/presentation/pages/detail/widget/box_office_data.dart';
+import 'package:flutter_movie_app/presentation/pages/detail/widget/movie_category.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class DetailPage extends ConsumerWidget {
   final int id;
+  final String imgUrl;
+  final String heroTagPrefix;
 
   const DetailPage({
     super.key,
     required this.id,
+    required this.imgUrl,
+    required this.heroTagPrefix,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final detailMovieData = ref.watch(detailPageViewModel(id));
+    final heroTag = '${heroTagPrefix}_${id}';
 
     // 상태가 초기값일 경우 로딩 인디케이터 표시
     if (detailMovieData == null) {
@@ -29,7 +34,7 @@ class DetailPage extends ConsumerWidget {
       body: ListView(
         children: [
           Hero(
-            tag: 'hero-movie-$id',
+            tag: heroTag,
             child: ClipRRect(
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(10),
@@ -65,10 +70,8 @@ class DetailPage extends ConsumerWidget {
                     scrollDirection: Axis.horizontal,
                     itemCount: (detailMovieData.genres).length,
                     itemBuilder: (context, index) {
-                      final category =
-                          detailMovieData.genres[index]; // null 안전하게 접근
-                      return MovieCategory(
-                          category.name); // Genre 객체에서 name을 사용
+                      final genre = detailMovieData.genres[index];
+                      return MovieCategory(genre); // Genre 객체에서 name을 사용
                     },
                     separatorBuilder: (context, index) {
                       return SizedBox(
@@ -107,48 +110,26 @@ class DetailPage extends ConsumerWidget {
                   height: 200,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
-                    itemCount: detailMovieData.productionCompanies.length,
+                    itemCount: detailMovieData.productionCompanyLogos.length,
                     itemBuilder: (context, index) {
-                      final company =
-                          detailMovieData.productionCompanies[index];
+                      final companyLogos =
+                          detailMovieData.productionCompanyLogos[index];
                       return Column(
                         children: [
-                          company.logoPath.isNotEmpty
-                              ? Container(
-                                  decoration:
-                                      BoxDecoration(color: Colors.white),
-                                  height: 100,
-                                  width: 160,
-                                  child: Align(
-                                    alignment: Alignment.centerRight,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: Image.network(
-                                          'https://image.tmdb.org/t/p/w500' +
-                                              company.logoPath),
-                                    ),
-                                  ),
-                                )
-                              : Container(
-                                  decoration:
-                                      BoxDecoration(color: Colors.white),
-                                  height: 100,
-                                  width: 160,
-                                  child: Align(
-                                    alignment: Alignment.centerRight,
-                                    child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: Center(
-                                          child: Text(
-                                            '${company.name}',
-                                            style: TextStyle(
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.black),
-                                          ),
-                                        )),
-                                  ),
-                                )
+                          Container(
+                            decoration: BoxDecoration(color: Colors.white),
+                            height: 100,
+                            width: 160,
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.network(
+                                    'https://image.tmdb.org/t/p/w500' +
+                                        companyLogos),
+                              ),
+                            ),
+                          )
                         ],
                       );
                     },
