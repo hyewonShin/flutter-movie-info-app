@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_movie_app/presentation/pages/homepage/movie_list_view_model.dart';
-import 'package:flutter_movie_app/presentation/pages/homepage/widget/image_box_list.dart';
-import 'package:flutter_movie_app/presentation/pages/homepage/widget/most_popular.dart';
-import 'package:flutter_movie_app/presentation/pages/homepage/widget/popular_image_list.dart';
+import 'package:flutter_movie_app/presentation/pages/home/movie_list_view_model.dart';
+import 'package:flutter_movie_app/presentation/pages/home/widget/image_box_list.dart';
+import 'package:flutter_movie_app/presentation/pages/home/widget/most_popular.dart';
+import 'package:flutter_movie_app/presentation/pages/home/widget/popular_image_list.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MovieListPage extends ConsumerWidget {
