@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_movie_app/presentation/pages/homepage/movie_list_page.dart';
+import 'package:flutter_movie_app/presentation/pages/home/movie_list_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
