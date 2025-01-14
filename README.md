@@ -1,8 +1,8 @@
 # 프로젝트 미리보기
-  <img src="https://github.com/user-attachments/assets/a0898750-a46b-48cb-8fe0-1a848b2e7b2d" style="width: 20%;" />
-  <img src="https://github.com/user-attachments/assets/0e7a0015-4cd9-45c9-b93c-50d9bfdff0ae" style="width: 20%;" />
-  <img src="https://github.com/user-attachments/assets/f099b0e6-702b-4863-a07c-db749b81d884" style="width: 20%;" />
-  <img src="https://github.com/user-attachments/assets/be1acfc5-a51c-4571-94d7-596d6d729f25" style="width: 20%;" />
+  <img src="https://github.com/user-attachments/assets/f099b0e6-702b-4863-a07c-db749b81d884" style="width: 30%;" />
+  <img src="https://github.com/user-attachments/assets/be1acfc5-a51c-4571-94d7-596d6d729f25" style="width: 30%;" />
+  <img src="https://github.com/user-attachments/assets/0e7a0015-4cd9-45c9-b93c-50d9bfdff0ae" style="width: 30%;" />
+  
 <br/><br/>
 
 # 프로젝트 소개 
