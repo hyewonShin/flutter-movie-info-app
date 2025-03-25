@@ -4,7 +4,7 @@ import 'package:flutter_movie_app/data/data_source/movie_data_source.dart';
 import 'package:flutter_movie_app/data/dto/movie_detail_dto/movie_detail_dto.dart';
 import 'package:flutter_movie_app/data/dto/movie_response_dto/movie_response_dto.dart';
 
-// 주삭 추
+// 주삭 추가
 class MovieDataSourceImpl implements MovieDataSource {
   MovieDataSourceImpl(this._dioClient) {
     _dioClient.interceptors.add(InterceptorsWrapper(
